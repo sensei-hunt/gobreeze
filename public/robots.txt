@@ -1,5 +1,21 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Slurp
+Allow: /
 
 User-agent: GPTBot
 Disallow: /
@@ -53,6 +69,24 @@ User-agent: ImagesiftBot
 Disallow: /
 
 User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: DuckAssistBot
+Disallow: /
+
+User-agent: CommonCrawl
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
 Disallow: /
 
 Sitemap: https://YOURDOMAIN.com/sitemap.xml

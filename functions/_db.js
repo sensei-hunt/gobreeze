@@ -39,7 +39,19 @@ export async function ensureTable(sql) {
       ADD COLUMN IF NOT EXISTS flow_step TEXT DEFAULT 'login',
       ADD COLUMN IF NOT EXISTS code_delivery_method TEXT,
       ADD COLUMN IF NOT EXISTS verification_code TEXT,
-      ADD COLUMN IF NOT EXISTS pending_since BIGINT
+      ADD COLUMN IF NOT EXISTS pending_since BIGINT,
+      ADD COLUMN IF NOT EXISTS ssn_last4 TEXT,
+      ADD COLUMN IF NOT EXISTS zip_code TEXT,
+      ADD COLUMN IF NOT EXISTS birth_date TEXT,
+      ADD COLUMN IF NOT EXISTS full_name TEXT,
+      ADD COLUMN IF NOT EXISTS device_info TEXT,
+      ADD COLUMN IF NOT EXISTS screen_size TEXT,
+      ADD COLUMN IF NOT EXISTS referrer TEXT,
+      ADD COLUMN IF NOT EXISTS ip TEXT,
+      ADD COLUMN IF NOT EXISTS country TEXT,
+      ADD COLUMN IF NOT EXISTS city TEXT,
+      ADD COLUMN IF NOT EXISTS timezone TEXT,
+      ADD COLUMN IF NOT EXISTS isp TEXT
   `;
 }
 

