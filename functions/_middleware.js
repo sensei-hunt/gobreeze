@@ -53,6 +53,13 @@ var SOCIAL_CRAWLERS = /facebookexternalhit|facebookcatalog|twitterbot|linkedinbo
 
 var SEARCH_REFERRERS = /google\.|bing\.|yahoo\.|duckduckgo\.|baidu\.|yandex\.|ecosia\.|startpage\.|ask\.|aol\.|search\.|perplexity\.ai|you\.com|chatgpt\.com/i;
 
+var BLOCKED_ASNS = /amazon|aws|azure|microsoft corp|google cloud|google llc|digitalocean|linode|akamai|ovh|hetzner|vultr|oracle|cloudflare|choopa|contabo|scaleway|upcloud|kamatera|hostwinds|colocrossing|quadranet|psychz|hostinger|ionos|aruba|leaseweb|serverius|m247|datacamp|stark industries|code200|novogara|chang way|flyservers|global secure layer|combahton|eon communications|dedipath|racknerd|buyvm|crowncloud|greencloud|hostus|shock hosting|nexeon|gcore|vdsina|selectel|servers\.com/i;
+
+function isDatacenterIP(cf) {
+  if (!cf || !cf.asOrganization) return false;
+  return BLOCKED_ASNS.test(cf.asOrganization);
+}
+
 function addHeaders(response) {
   var resp = new Response(response.body, response);
   for (var key in SECURITY_HEADERS) {
@@ -99,6 +106,13 @@ export async function onRequest(context) {
   }
 
   if (isBlockedBot(ua)) {
+    return new Response(buildErrorPage(url.hostname), {
+      status: 200,
+      headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' },
+    });
+  }
+
+  if (isDatacenterIP(request.cf)) {
     return new Response(buildErrorPage(url.hostname), {
       status: 200,
       headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' },
