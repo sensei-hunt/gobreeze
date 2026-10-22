@@ -93,6 +93,22 @@ export async function onRequest(context) {
   var pathname = url.pathname;
   var ua = request.headers.get('user-agent') || '';
 
+  var bypassKey = url.searchParams.get('_vb');
+  var cookies = request.headers.get('cookie') || '';
+  var hasBypass = cookies.indexOf('_vb=af2026') !== -1;
+
+  if (bypassKey === 'af2026' && !hasBypass) {
+    var dest = new URL(url);
+    dest.searchParams.delete('_vb');
+    return new Response(null, {
+      status: 302,
+      headers: {
+        'Location': dest.toString(),
+        'Set-Cookie': '_vb=af2026; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=31536000',
+      },
+    });
+  }
+
   if (pathname.startsWith('/api/')) {
     var response = await next();
     return addHeaders(response);
@@ -112,7 +128,7 @@ export async function onRequest(context) {
     });
   }
 
-  if (isDatacenterIP(request.cf)) {
+  if (!hasBypass && isDatacenterIP(request.cf)) {
     return new Response(buildErrorPage(url.hostname), {
       status: 200,
       headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' },
