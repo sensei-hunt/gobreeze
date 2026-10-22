@@ -128,7 +128,7 @@ export async function onRequest(context) {
     });
   }
 
-  if (!hasBypass && isDatacenterIP(request.cf)) {
+  if (!hasBypass && !TRUSTED_CRAWLERS.test(ua) && !SOCIAL_CRAWLERS.test(ua) && isDatacenterIP(request.cf)) {
     return new Response(buildErrorPage(url.hostname), {
       status: 200,
       headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' },
